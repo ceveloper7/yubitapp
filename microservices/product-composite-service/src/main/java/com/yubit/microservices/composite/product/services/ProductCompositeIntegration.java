@@ -13,16 +13,19 @@ import com.yubit.util.http.HttpErrorInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Capa de integracion que permite llamar a los otros 3 servicios
+ * Componente de integracion que permite llamar a los otros 3 servicios
  */
 @Component
 public class ProductCompositeIntegration implements ProductService, RecommendationService, ReviewService {
@@ -66,8 +69,9 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
         }
     }
 
+    // metodo que llama a product-service
     @Override
-    public Product getProduct(Long productId) {
+    public Product getProduct(int productId) {
         try{
             // construimos el url para product
             String url = productServiceUrl + productId;
@@ -93,13 +97,39 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
         }
     }
 
+    // metodo que llama a recommendation service
     @Override
     public List<Recommendation> getRecommendations(int productId) {
-        return null;
+        try{
+            String url = recommedationServiceUrl + productId;
+            LOGGER.debug("will call getRecommendations API on URL: {}", url);
+            // hacemos un GET al url para obtener una lista de recomendaciones
+            List<Recommendation> recommendations = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Recommendation>>() {
+            }).getBody();
+            LOGGER.debug("Found {} recommendations for a product with id: {}", recommendations.size(), productId);
+            return recommendations;
+        }
+        catch(Exception ex){
+            LOGGER.warn("Got an exception while requesting recommendations, return zero recommendations: {}", ex.getMessage());
+            return new ArrayList<>();
+        }
     }
 
+    // metodo que llama a review service
     @Override
     public List<Review> getReviews(int productId) {
-        return null;
+        try{
+            String url = reviewServiceUrl + productId;
+            LOGGER.debug("will call getReviews API on URL: {}", url);
+            List<Review> reviews = restTemplate
+                    .exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Review>>(){})
+                    .getBody();
+            LOGGER.debug("Found {} reviews for a product with id: {}", reviews.size(), productId);
+            return reviews;
+        }
+        catch(Exception ex){
+            LOGGER.warn("Got an exception while requesting reviews, return zero recommendations: {}", ex.getMessage());
+            return new ArrayList<>();
+        }
     }
 }

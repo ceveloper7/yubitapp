@@ -15,6 +15,7 @@ repositories {
 	mavenCentral()
 }
 
+// enables=false indica que no se genere en el target el archivo SNAPSHOOT-plain.jar
 jar{
 	enabled = false
 }

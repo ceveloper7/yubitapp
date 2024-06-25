@@ -1,8 +1,9 @@
 package com.yubit.api.core.review;
 
+// invitados a revistar un producto
 public record Review(
-        Long id,
-        Long productId,
+        int productId,
+        int id,
         String author,
         String subject,
         String content,
