@@ -1,5 +1,6 @@
 package com.yubit.util.http;
 
+import com.yubit.api.exceptions.BadRequestException;
 import com.yubit.api.exceptions.InvalidInputException;
 import com.yubit.api.exceptions.NotFoundException;
 import org.slf4j.Logger;
@@ -14,6 +15,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalControllerExceptionHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BadRequestException.class)
+    public @ResponseBody HttpErrorInfo handleBadRequestException(ServerHttpRequest request, NotFoundException exception){
+        return createHttpErrorInfo(HttpStatus.BAD_REQUEST, request, exception);
+    }
 
     // Interceptor que maneja la excepcion NotFoundException cuando esta se prouzca
     @ResponseStatus(HttpStatus.NOT_FOUND)

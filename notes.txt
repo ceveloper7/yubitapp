@@ -1,2 +1,42 @@
-Clase 2 - minuto 31
-https://www.youtube.com/watch?v=cI_bcoC59MQ&list=PL5sFNOYxsSxR2Okup4FQLXswk28QMQ2w5&index=2
+See a process on a Port
+=======================
+sudo fuser [port-number]/tcp
+
+Kill a process on a port
+========================
+sudo fuser -k [port-number]/tcp
+
+Build all projects
+==================
+bash ./gradlew clean build
+
+Buidl specific project
+======================
+bash ./gradlew microservices/product-composite-service clean build
+
+Run a microservices projects
+============================
+java -jar microservices/review-service/build/libs/*.jar &
+
+java -jar microservices/recommendation-service/build/libs/*.jar &
+
+java -jar microservices/product-service/build/libs/*.jar &
+
+java -jar microservices/product-composite-service/build/libs/*.jar &
+
+
+Test product-composite-service
+==============================
+curl http://localhost:7000/product-composite/1
+
+Test product error case - product not found
+===========================================
+curl http://localhost:7000/product-composite/13 -i
+
+Test case: product without recommendation,reviews
+=================================================
+curl http://localhost:7000/product-composite/113 -i
+
+Test case: inprocessable entity
+===============================
+curl http://localhost:7000/product-composite/-1 -i
