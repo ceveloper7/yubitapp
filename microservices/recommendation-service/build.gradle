@@ -11,6 +11,11 @@ java {
 	sourceCompatibility = '17'
 }
 
+// enables=false indica que no se genere en el target el archivo SNAPSHOOT-plain.jar
+jar{
+	enabled = false
+}
+
 repositories {
 	mavenCentral()
 }

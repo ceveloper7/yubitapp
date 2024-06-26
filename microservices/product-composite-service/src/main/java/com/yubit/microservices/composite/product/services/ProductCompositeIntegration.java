@@ -49,13 +49,13 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
             @Value("${app.product-service.port}") String productServicePort,
             @Value("${app.recommendation-service.host}") String recommedationServiceHost,
             @Value("${app.recommendation-service.port}") String recommedationServicePort,
-            @Value("${app.review-service.port}") String reviewServiceHost,
-            @Value("${app.review-service.host}") String reviewServicePort
+            @Value("${app.review-service.host}") String reviewServiceHost,
+            @Value("${app.review-service.port}") String reviewServicePort
     ){
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
         this.productServiceUrl = "http://" + productServiceHost + ":" + productServicePort + "/product/";
-        this.recommedationServiceUrl = "http://" + recommedationServiceHost + ":" + productServicePort + "/recommendation?productId=";
+        this.recommedationServiceUrl = "http://" + recommedationServiceHost + ":" + recommedationServicePort + "/recommendation?productId=";
         this.reviewServiceUrl = "htpp://" + reviewServiceHost + ":" + reviewServicePort + "/review?productId=";
     }
 

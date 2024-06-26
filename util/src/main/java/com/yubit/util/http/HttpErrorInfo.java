@@ -12,8 +12,8 @@ public class HttpErrorInfo {
 
     public HttpErrorInfo(){}
 
-    public HttpErrorInfo(ZonedDateTime timestamp, String path, HttpStatus httpStatus, String message) {
-        this.timestamp = timestamp;
+    public HttpErrorInfo(HttpStatus httpStatus, String path,  String message) {
+        this.timestamp = ZonedDateTime.now();
         this.path = path;
         this.httpStatus = httpStatus;
         this.message = message;
