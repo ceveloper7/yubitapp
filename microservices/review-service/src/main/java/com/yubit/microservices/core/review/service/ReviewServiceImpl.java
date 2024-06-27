@@ -26,7 +26,7 @@ public class ReviewServiceImpl implements ReviewService {
             throw new InvalidInputException("Invalid product id " + productId);
         }
 
-        if(productId == 213){
+        if(productId == 113){
             LOGGER.debug("No reviews found for productId {} ", productId);
             return new ArrayList<>();
         }
