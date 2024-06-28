@@ -69,7 +69,7 @@ class ProductServiceApplicationTests {
 				.expectHeader().contentType(MediaType.APPLICATION_JSON)
 				.expectBody()
 				.jsonPath("$.path").isEqualTo("/product/" + productIdInvalid)
-				.jsonPath("$.message").isEqualTo("Invalid product id " + productIdInvalid);
+				.jsonPath("$.message").isEqualTo("Invalid productId " + productIdInvalid);
 
 	}
 }

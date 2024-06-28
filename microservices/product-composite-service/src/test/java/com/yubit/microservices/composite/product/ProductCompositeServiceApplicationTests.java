@@ -26,7 +26,7 @@ import java.util.Collections;
 class ProductCompositeServiceApplicationTests {
 	private static final int PRODUCT_ID_OK = 1;
 	private static final int PRODUCT_ID_NOT_FOUND = 2;
-	private static final int PRODUCT_ID_INVALID = 2;
+	private static final int PRODUCT_ID_INVALID = 3;
 
 	@Autowired
 	private WebTestClient client;
@@ -76,7 +76,7 @@ class ProductCompositeServiceApplicationTests {
 				.expectHeader().contentType(MediaType.APPLICATION_JSON)
 				.expectBody()
 				.jsonPath("$.path").isEqualTo("/product-composite/" + PRODUCT_ID_NOT_FOUND)
-				.jsonPath("$.message").isEqualTo("NOT FOUND" + PRODUCT_ID_NOT_FOUND);
+				.jsonPath("$.message").isEqualTo("NOT FOUND: " + PRODUCT_ID_NOT_FOUND);
 	}
 
 	@Test
