@@ -4,7 +4,7 @@ import com.yubit.api.core.product.Product;
 
 public record Recommendation(
         int productId,
-        int id,
+        int recommendationId,
         String author,
         int rate,
         String content,

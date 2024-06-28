@@ -39,7 +39,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
 
     // url de los diferentes servicios
     private final String productServiceUrl;
-    private final String recommedationServiceUrl;
+    private final String recommendationServiceUrl;
     private final String reviewServiceUrl;
 
     public ProductCompositeIntegration(
@@ -47,15 +47,15 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
             ObjectMapper objectMapper,
             @Value("${app.product-service.host}") String productServiceHost,
             @Value("${app.product-service.port}") String productServicePort,
-            @Value("${app.recommendation-service.host}") String recommedationServiceHost,
-            @Value("${app.recommendation-service.port}") String recommedationServicePort,
+            @Value("${app.recommendation-service.host}") String recommendationServiceHost,
+            @Value("${app.recommendation-service.port}") String recommendationServicePort,
             @Value("${app.review-service.host}") String reviewServiceHost,
             @Value("${app.review-service.port}") String reviewServicePort
     ){
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
         this.productServiceUrl = "http://" + productServiceHost + ":" + productServicePort + "/product/";
-        this.recommedationServiceUrl = "http://" + recommedationServiceHost + ":" + recommedationServicePort + "/recommendation?productId=";
+        this.recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort + "/recommendation?productId=";
         this.reviewServiceUrl = "htpp://" + reviewServiceHost + ":" + reviewServicePort + "/review?productId=";
     }
 
@@ -79,7 +79,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
 
             // indicamos al restTemplate que retorne un objeto Product
             Product product = restTemplate.getForObject(url, Product.class);
-            LOGGER.debug("Found a product with id: {}", product.id());
+            LOGGER.debug("Found a product with id: {}", product.productId());
             return product;
         }
         catch(HttpClientErrorException ex){
@@ -101,7 +101,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
     @Override
     public List<Recommendation> getRecommendations(int productId) {
         try{
-            String url = recommedationServiceUrl + productId;
+            String url = recommendationServiceUrl + productId;
             LOGGER.debug("will call getRecommendations API on URL: {}", url);
             // hacemos un GET al url para obtener una lista de recomendaciones
             List<Recommendation> recommendations = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Recommendation>>() {

@@ -42,14 +42,14 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
     private ProductAggregate createProductAggregate(Product product, List<Recommendation> recommendations,
                                                     List<Review> reviews, String serviceAddress) {
         // 1. product info
-        int productId = product.id();
+        int productId = product.productId();
         String name = product.name();
         int weight = product.weight();
 
         List<RecommendationSummary> recommendationSummaries =
                 recommendations.stream()
                         .map(recommendation -> new RecommendationSummary(
-                                recommendation.id(),
+                                recommendation.recommendationId(),
                                 recommendation.author(),
                                 recommendation.rate()
                         ))
@@ -57,7 +57,7 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
 
         List<ReviewSummary> reviewSummaries = (reviews==null) ? null : reviews.stream()
                 .map(review -> new ReviewSummary(
-                        review.id(),
+                        review.reviewId(),
                         review.author(),
                         review.subject()))
                 .collect(Collectors.toList());
