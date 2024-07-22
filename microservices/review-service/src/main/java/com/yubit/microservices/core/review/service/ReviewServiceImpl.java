@@ -23,10 +23,10 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<Review> getReviews(int productId) {
         if(productId < 1){
-            throw new InvalidInputException("Invalid product id " + productId);
+            throw new InvalidInputException("Invalid productId " + productId);
         }
 
-        if(productId == 113){
+        if(productId == 213){
             LOGGER.debug("No reviews found for productId {} ", productId);
             return new ArrayList<>();
         }

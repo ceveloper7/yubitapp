@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Componente de integracion que permite llamar a los otros 3 servicios
@@ -46,17 +47,17 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
             RestTemplate restTemplate,
             ObjectMapper objectMapper,
             @Value("${app.product-service.host}") String productServiceHost,
-            @Value("${app.product-service.port}") String productServicePort,
+            @Value("${app.product-service.port}") int productServicePort,
             @Value("${app.recommendation-service.host}") String recommendationServiceHost,
-            @Value("${app.recommendation-service.port}") String recommendationServicePort,
+            @Value("${app.recommendation-service.port}") int recommendationServicePort,
             @Value("${app.review-service.host}") String reviewServiceHost,
-            @Value("${app.review-service.port}") String reviewServicePort
+            @Value("${app.review-service.port}") int reviewServicePort
     ){
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
         this.productServiceUrl = "http://" + productServiceHost + ":" + productServicePort + "/product/";
         this.recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort + "/recommendation?productId=";
-        this.reviewServiceUrl = "htpp://" + reviewServiceHost + ":" + reviewServicePort + "/review?productId=";
+        this.reviewServiceUrl = "http://" + reviewServiceHost + ":" + reviewServicePort + "/review?productId=";
     }
 
     private String getErrorMessage(HttpClientErrorException ex){
@@ -74,7 +75,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
     public Product getProduct(int productId) {
         try{
             // construimos el url para product
-            String url = productServiceUrl + productId;
+            String url = this.productServiceUrl + productId;
             LOGGER.debug("will call getProduct API on URL: {}", url);
 
             // indicamos al restTemplate que retorne un objeto Product
@@ -83,17 +84,23 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
             return product;
         }
         catch(HttpClientErrorException ex){
-            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-                throw new NotFoundException(getErrorMessage(ex));
+            switch (Objects.requireNonNull(HttpStatus.resolve(ex.getStatusCode().value()))) {
+                case NOT_FOUND -> throw new NotFoundException(getErrorMessage(ex));
+                case UNPROCESSABLE_ENTITY -> throw new InvalidInputException(getErrorMessage(ex));
+                default -> throw ex;
             }
 
-            if(ex.getStatusCode().equals(HttpStatus.UNPROCESSABLE_ENTITY)){
-                throw new InvalidInputException(getErrorMessage(ex));
-            }
+//            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+//                throw new NotFoundException(getErrorMessage(ex));
+//            }
+//
+//            if(ex.getStatusCode().equals(HttpStatus.UNPROCESSABLE_ENTITY)){
+//                throw new InvalidInputException(getErrorMessage(ex));
+//            }
 
-            LOGGER.warn("Got an unexpected HTTP error {}, will rethrow it", ex.getStatusCode());
-            LOGGER.warn("Error body: {}", ex.getResponseBodyAsString());
-            throw ex;
+//            LOGGER.warn("Got an unexpected HTTP error {}, will rethrow it", ex.getStatusCode());
+//            LOGGER.warn("Error body: {}", ex.getResponseBodyAsString());
+//            throw ex;
         }
     }
 

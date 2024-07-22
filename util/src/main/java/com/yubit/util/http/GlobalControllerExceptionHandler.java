@@ -18,29 +18,35 @@ public class GlobalControllerExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadRequestException.class)
-    public @ResponseBody HttpErrorInfo handleBadRequestException(ServerHttpRequest request, NotFoundException exception){
-        return createHttpErrorInfo(HttpStatus.BAD_REQUEST, request, exception);
+    public @ResponseBody HttpErrorInfo handleBadRequestExceptions(
+            ServerHttpRequest request, BadRequestException ex) {
+
+        return createHttpErrorInfo(HttpStatus.BAD_REQUEST, request, ex);
     }
 
-    // Interceptor que maneja la excepcion NotFoundException cuando esta se prouzca
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
-    public @ResponseBody HttpErrorInfo handlerNotFoundException(ServerHttpRequest request, NotFoundException exception){
-        // atrapamos la excepcion, tomamos sus datos y retornamos un objeto HttpErrorInfo
-        return createHttpErrorInfo(HttpStatus.NOT_FOUND, request, exception);
+    public @ResponseBody HttpErrorInfo handleNotFoundExceptions(
+            ServerHttpRequest request, NotFoundException ex) {
+
+        return createHttpErrorInfo(HttpStatus.NOT_FOUND, request, ex);
     }
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(InvalidInputException.class)
-    public @ResponseBody HttpErrorInfo handlerUnprocessableEntityException(ServerHttpRequest request, NotFoundException exception){
-        // atrapamos la excepcion, tomamos sus datos y retornamos un objeto HttpErrorInfo
-        return createHttpErrorInfo(HttpStatus.UNPROCESSABLE_ENTITY, request, exception);
+    public @ResponseBody HttpErrorInfo handleInvalidInputException(
+            ServerHttpRequest request, InvalidInputException ex) {
+
+        return createHttpErrorInfo(HttpStatus.UNPROCESSABLE_ENTITY, request, ex);
     }
 
-    private HttpErrorInfo createHttpErrorInfo(HttpStatus httpStatus, ServerHttpRequest request, NotFoundException exception) {
+    private HttpErrorInfo createHttpErrorInfo(
+            HttpStatus httpStatus, ServerHttpRequest request, Exception ex) {
+
         final String path = request.getPath().pathWithinApplication().value();
-        final String message = exception.getMessage();
-        LOGGER.debug("Returning http status {} for path {}, message {}", httpStatus, path, message);
+        final String message = ex.getMessage();
+
+        LOGGER.debug("Returning HTTP status: {} for path: {}, message: {}", httpStatus, path, message);
         return new HttpErrorInfo(httpStatus, path, message);
     }
 }

@@ -36,8 +36,8 @@ class ReviewServiceApplicationTests {
 				.expectStatus().isEqualTo(HttpStatus.BAD_REQUEST)
 				.expectHeader().contentType(MediaType.APPLICATION_JSON)
 				.expectBody()
-				.jsonPath("$.path").isEqualTo("/review");
-				//.jsonPath("$.message").isEqualTo("Required int parameter ''productId'' is not present");
+				.jsonPath("$.path").isEqualTo("/review")
+				.jsonPath("$.message").isEqualTo("Required int parameter 'productId' is not present");
 	}
 
 	@Test
@@ -49,8 +49,8 @@ class ReviewServiceApplicationTests {
 				.expectStatus().isEqualTo(HttpStatus.BAD_REQUEST)
 				.expectHeader().contentType(MediaType.APPLICATION_JSON)
 				.expectBody()
-				.jsonPath("$.path").isEqualTo("/review");
-				//.jsonPath("$.message").isEqualTo("Type mismatch");
+				.jsonPath("$.path").isEqualTo("/review")
+				.jsonPath("$.message").isEqualTo("Type mismatch.");
 	}
 
 	@Test
@@ -64,7 +64,6 @@ class ReviewServiceApplicationTests {
 				.expectHeader().contentType(MediaType.APPLICATION_JSON)
 				.expectBody()
 				.jsonPath("$.length()").isEqualTo(0);
-		//.jsonPath("$.message").isEqualTo("Type mismatch");
 	}
 
 }
