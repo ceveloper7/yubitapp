@@ -40,3 +40,10 @@ curl http://localhost:7000/product-composite/113 -i
 Test case: inprocessable entity
 ===============================
 curl http://localhost:7000/product-composite/-1 -i
+
+Docker
+======
+
+Ver los contenedores en ejecucion: docker ps
+Ver los contenedores en ejecucion y no ejecucion: docker ps -a
+Limpiar todos los contenedores: docker rm -f $(docker ps -aq)
