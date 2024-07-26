@@ -25,12 +25,12 @@ public class ProductServiceImpl implements ProductService {
     public Product getProduct(int productId) {
         LOGGER.debug("/product return the found product for productId={}", productId);
         if(productId < 1){
-            throw new InvalidInputException("Invalid product id " + productId);
+            throw new InvalidInputException("Invalid productId:" + productId);
         }
 
         // si no se encontro el product
         if(productId == 13){
-            throw new NotFoundException("No product found for productId=" + productId);
+            throw new NotFoundException("No product found for productId:" + productId);
         }
 
         return new Product(productId, "name-"+productId, 123, serviceUtil.getServiceAddress());

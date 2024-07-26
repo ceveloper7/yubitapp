@@ -42,29 +42,31 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
     private ProductAggregate createProductAggregate(Product product, List<Recommendation> recommendations,
                                                     List<Review> reviews, String serviceAddress) {
         // 1. product info
-        int productId = product.productId();
-        String name = product.name();
-        int weight = product.weight();
+        int productId = product.getProductId();
+        String name = product.getName();
+        int weight = product.getWeight();
 
         List<RecommendationSummary> recommendationSummaries =
                 recommendations.stream()
                         .map(recommendation -> new RecommendationSummary(
-                                recommendation.recommendationId(),
-                                recommendation.author(),
-                                recommendation.rate()
+                                recommendation.getRecommendationId(),
+                                recommendation.getAuthor(),
+                                recommendation.getRate(),
+                                recommendation.getContent()
                         ))
                         .collect(Collectors.toList());
 
         List<ReviewSummary> reviewSummaries = (reviews==null) ? null : reviews.stream()
                 .map(review -> new ReviewSummary(
-                        review.reviewId(),
-                        review.author(),
-                        review.subject()))
+                        review.getReviewId(),
+                        review.getAuthor(),
+                        review.getSubject(),
+                        review.getContent()))
                 .collect(Collectors.toList());
 
-        String productAddress = product.serviceAddress();
-        String reviewAddress = (reviews != null && reviews.size() > 0) ? reviews.get(0).serviceAddress() : "";
-        String recommendationAddress = (recommendations != null && recommendations.size() > 0) ? recommendations.get(0).serviceAddress() : "";
+        String productAddress = product.getServiceAddress();
+        String reviewAddress = (reviews != null && reviews.size() > 0) ? reviews.get(0).getServiceAddress() : "";
+        String recommendationAddress = (recommendations != null && recommendations.size() > 0) ? recommendations.get(0).getServiceAddress() : "";
 
         ServiceAddresses serviceAddresses = new ServiceAddresses(serviceAddress,productAddress, reviewAddress, recommendationAddress);
 

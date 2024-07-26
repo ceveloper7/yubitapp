@@ -49,7 +49,7 @@ class ProductCompositeServiceApplicationTests {
 				.thenThrow(new NotFoundException("NOT FOUND: " + PRODUCT_ID_NOT_FOUND));
 
 		Mockito.when(compositeIntegration.getProduct(PRODUCT_ID_INVALID))
-				.thenThrow(new InvalidInputException("INVALID PRODUCT: " + PRODUCT_ID_INVALID));
+				.thenThrow(new InvalidInputException("INVALID: " + PRODUCT_ID_INVALID));
 	}
 
 	@Test
@@ -89,6 +89,6 @@ class ProductCompositeServiceApplicationTests {
 				.expectHeader().contentType(MediaType.APPLICATION_JSON)
 				.expectBody()
 				.jsonPath("$.path").isEqualTo("/product-composite/" + PRODUCT_ID_INVALID)
-				.jsonPath("$.message").isEqualTo("INVALID PRODUCT: " + PRODUCT_ID_INVALID);
+				.jsonPath("$.message").isEqualTo("INVALID: " + PRODUCT_ID_INVALID);
 	}
 }

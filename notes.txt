@@ -47,3 +47,59 @@ Docker
 Ver los contenedores en ejecucion: docker ps
 Ver los contenedores en ejecucion y no ejecucion: docker ps -a
 Limpiar todos los contenedores: docker rm -f $(docker ps -aq)
+
+Run Product-Service Microservicio
+=================================
+con el flag --rm al detenerse la instancia se borra el contenedor
+docker run --rm -p8080:8080 -e "SPRING_PROFILES_ACTIVE=docker" product-service
+
+Levantar el contenedor sin estar conectado al contenedor
+--name indicamos el nombre del contenedor
+docker run -d -p8080:8080 -e "SPRING_PROFILES_ACTIVE=docker" --name yubit-product-service product-service
+
+Para ver el log de un contenedor
+-f se queda esperando por mas logs
+docker logs yubit-product-service -f
+
+Detener un contenedor
+docker stop yubit-product-service
+
+Borrar el contenedor
+docker stop yubit-product-service
+docker
+rm yubit-product-service
+
+Parar y borrar el contenedor
+docker rm -f yubit-product-service
+
+Generar las imagenes de un docker-compose
+docker compose build
+
+ver las imagenes instaladas
+docker images
+
+Levantar todas las imagenes en background
+docker compose up -d
+
+Ver las imagenes levantadas
+docker compose ps
+
+ver el log de un microservicio en particular
+docker compose logs -f youbit-spring-product-1
+
+detener todas los contenedores levantados
+docker compose down
+
+eliminamos todos contenedores levantados
+docker compose --remove-orphans
+
+limpiar logs de volumens
+docker system prune -f --volumes
+
+Todo en un solo comando
+=======================
+Limpiar y construir los jars
+construir las imagenes
+ejecutar las pruebas
+
+bash ./gradlew clean build -x test && docker compose build && ./test-all-microservices.bash

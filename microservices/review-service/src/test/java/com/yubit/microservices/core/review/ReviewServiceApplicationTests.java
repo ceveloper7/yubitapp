@@ -55,7 +55,7 @@ class ReviewServiceApplicationTests {
 
 	@Test
 	void getReviewsNotFound(){
-		int productIdNotFound = 113;
+		int productIdNotFound = 213;
 		client.get()
 				.uri("/review?productId=" + productIdNotFound)
 				.accept(MediaType.APPLICATION_JSON)

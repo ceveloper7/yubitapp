@@ -38,7 +38,7 @@ class ProductServiceApplicationTests {
 				.expectHeader().contentType(MediaType.APPLICATION_JSON)
 				.expectBody()
 					.jsonPath("$.path").isEqualTo("/product/no-integer");
-					//.jsonPath("$.message").isEqualTo("Type mistmatch.");
+					//.jsonPath("$.message").isEqualTo("Type mistmatch.")
 	}
 
 	@Test
@@ -53,7 +53,7 @@ class ProductServiceApplicationTests {
 				.expectHeader().contentType(MediaType.APPLICATION_JSON)
 				.expectBody()
 					.jsonPath("$.path").isEqualTo("/product/" + productIdNotFound)
-					.jsonPath("$.message").isEqualTo("No product found for productId=" + productIdNotFound);
+					.jsonPath("$.message").isEqualTo("No product found for productId:" + productIdNotFound);
 
 	}
 
@@ -69,7 +69,7 @@ class ProductServiceApplicationTests {
 				.expectHeader().contentType(MediaType.APPLICATION_JSON)
 				.expectBody()
 				.jsonPath("$.path").isEqualTo("/product/" + productIdInvalid)
-				.jsonPath("$.message").isEqualTo("Invalid productId " + productIdInvalid);
+				.jsonPath("$.message").isEqualTo("Invalid productId:" + productIdInvalid);
 
 	}
 }

@@ -80,7 +80,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
 
             // indicamos al restTemplate que retorne un objeto Product
             Product product = restTemplate.getForObject(url, Product.class);
-            LOGGER.debug("Found a product with id: {}", product.productId());
+            LOGGER.debug("Found a product with id: {}", product.getProductId());
             return product;
         }
         catch(HttpClientErrorException ex){
