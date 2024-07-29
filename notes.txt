@@ -37,7 +37,7 @@ Test case: product without recommendation,reviews
 =================================================
 curl http://localhost:7000/product-composite/113 -i
 
-Test case: inprocessable entity
+Test case: unprocessable entity
 ===============================
 curl http://localhost:7000/product-composite/-1 -i
 
@@ -66,8 +66,7 @@ docker stop yubit-product-service
 
 Borrar el contenedor
 docker stop yubit-product-service
-docker
-rm yubit-product-service
+docker rm yubit-product-service
 
 Parar y borrar el contenedor
 docker rm -f yubit-product-service
