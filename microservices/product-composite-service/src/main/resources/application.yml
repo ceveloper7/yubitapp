@@ -1,4 +1,43 @@
 #spring.application.name=product-composite-service
+springdoc:
+  swagger-ui:
+    path: /openapi/swagger-ui.html
+  api-docs:
+    path: /openapi/v3/api-docs
+  packagesToScan: com.yubit.microservices.composite.product
+  paths-to-match: /**
+
+api:
+  common:
+    version: 1.0.0
+    title: Sample API
+    description: Description of the API...
+    termsOfService: My TERMS OF SERVICE
+    license: MY LICENSE
+    licenseUrl: MY LICENSE URL
+    externalDocDesc: MY WIKI PAGE
+    externalDocUrl: My WIKI URL
+    contact:
+      name: NAME OF CONTACT
+      url: URL TO CONTACT
+      email: contact@mail.com
+
+  responseCodes:
+    ok.description: OK
+    badRequest.description: Bad request, invalid format od the request. See response message for more information.
+    notFound.description: Not found, the specified id does not exist
+    unprocessableEntity.description: Unprocessable entity, input parameters caused the processing to fail.
+
+  product-composite:
+    get-composite-product:
+      description: Returns a composite view of the specified product id
+      notes:
+        # Normal response
+        If the request product id is found the method will return information regarding
+        1. Base product
+        1. Reviews
+        1. Recommendations
+
 # indicamos el puerto donde se inicia la app
 server:
   port: 7000
