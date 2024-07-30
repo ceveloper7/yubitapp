@@ -1,10 +1,24 @@
 server:
   port: 7003
 
----
 spring:
-  config:
+  jpa:
+    hibernate:
+      ddl-auto: update
+      # en produccion es ddl-auto:none
+    datasource:
+      url: jdb:mysql://localhost/review-db
+      username: user
+      password: password
+
+---
+spring.config:
     activate:
       on-profile: docker
 server:
   port: 8080
+
+# datasource para docker
+spring:
+  datasource:
+    url: jdbc:mysql://mysql/review-db
