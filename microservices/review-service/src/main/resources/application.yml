@@ -1,3 +1,4 @@
+
 server:
   port: 7003
 
@@ -9,7 +10,7 @@ spring:
     datasource:
       url: jdb:mysql://localhost/review-db
       username: user
-      password: password
+      password: pwd
 
 ---
 spring.config:

@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -22,12 +24,24 @@ public class PersistenceTests extends MySqlTestBase{
     private ReviewEntity savedEntity;
 
     @BeforeEach
-    void setUp(){
+    void setupDb(){
         repository.deleteAll();
         ReviewEntity entity = new ReviewEntity(1, 2, "a", "s", "c");
         savedEntity = repository.save(entity);
 
         assertEqualsReview(entity, savedEntity);
+    }
+
+    @Test
+    void create() {
+
+        ReviewEntity newEntity = new ReviewEntity(1, 3, "a", "s", "c");
+        repository.save(newEntity);
+
+        ReviewEntity foundEntity = repository.findById(newEntity.getId()).get();
+        assertEqualsReview(newEntity, foundEntity);
+
+        assertEquals(2, repository.count());
     }
 
     private void assertEqualsReview(ReviewEntity expectedEntity, ReviewEntity actualEntity) {
